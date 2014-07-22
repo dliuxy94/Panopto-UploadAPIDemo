@@ -1,0 +1,7 @@
+C:\Users\dliu\Documents\Visual Studio 2012\Projects\UploadAPIDemo\UploadAPIDemo\bin\Debug\UploadAPIDemo.exe.config
+C:\Users\dliu\Documents\Visual Studio 2012\Projects\UploadAPIDemo\UploadAPIDemo\bin\Debug\UploadAPIDemo.exe
+C:\Users\dliu\Documents\Visual Studio 2012\Projects\UploadAPIDemo\UploadAPIDemo\bin\Debug\UploadAPIDemo.pdb
+C:\Users\dliu\Documents\Visual Studio 2012\Projects\UploadAPIDemo\UploadAPIDemo\bin\Debug\AWSSDK.dll
+C:\Users\dliu\Documents\Visual Studio 2012\Projects\UploadAPIDemo\UploadAPIDemo\bin\Debug\AWSSDK.xml
+C:\Users\dliu\Documents\Visual Studio 2012\Projects\UploadAPIDemo\UploadAPIDemo\obj\Debug\UploadAPIDemo.exe
+C:\Users\dliu\Documents\Visual Studio 2012\Projects\UploadAPIDemo\UploadAPIDemo\obj\Debug\UploadAPIDemo.pdb
