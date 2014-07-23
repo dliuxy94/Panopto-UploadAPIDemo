@@ -32,7 +32,7 @@ namespace UploadAPIDemo
             Upload uploadInfo = CreateUpload(adminAuthCookie, deliveryID, sessionName);
 
             Console.WriteLine("Uploading File...");
-            UploadFile(uploadInfo.UploadTarget, filePath, partSize);
+            UploadSingleFile(uploadInfo.UploadTarget, filePath, partSize);
 
             Console.WriteLine("Finishing Upload...");
             ProcessSession(uploadInfo, adminAuthCookie, deliveryID);
@@ -89,7 +89,7 @@ namespace UploadAPIDemo
         /// </summary>
         /// <param name="uploadTarget">Destination of upload</param>
         /// <param name="filePath">file to upload</param>
-        public static void UploadFile(string uploadTarget, string filePath, long partSize)
+        public static void UploadSingleFile(string uploadTarget, string filePath, long partSize)
         {
             AmazonS3Client client = Common.CreateS3Client(uploadTarget);
             Amazon.S3.Model.InitiateMultipartUploadResponse response = Common.OpenUpload(client, uploadTarget, filePath);
