@@ -46,7 +46,7 @@ namespace UploadAPIDemo
         /// <param name="authCookie">stored authentication cookie</param>
         /// <param name="parentFolderID">destination folder ID</param>
         /// <param name="sessionName">name of upload session</param>
-        /// <returns>Delivery ID of this upload session</returns>
+        /// <returns>Session ID of this upload session</returns>
         public static string CreateSession(string authCookie, string parentFolderID, string sessionName)
         {
             Session body = new Session(sessionName, parentFolderID);
@@ -67,7 +67,7 @@ namespace UploadAPIDemo
         /// Create an upload
         /// </summary>
         /// <param name="authCookie">authorization cookie</param>
-        /// <param name="deliveryID">file delivery ID</param>
+        /// <param name="deliveryID">file Session ID</param>
         /// <param name="sessionName">session display name</param>
         /// <returns>Upload struct containing upload info</returns>
         public static Upload CreateUpload(string authCookie, string deliveryID, string sessionName)
@@ -102,7 +102,7 @@ namespace UploadAPIDemo
         /// </summary>
         /// <param name="upload">upload struct containing upload info</param>
         /// <param name="authCookie">authorization cookie</param>
-        /// <param name="deliveryID">upload delivery ID</param>
+        /// <param name="deliveryID">upload Session ID</param>
         public static void ProcessSession(Upload upload, string authCookie, string deliveryID)
         {
             Process process = Common.UpdateRestObject<Process>(
