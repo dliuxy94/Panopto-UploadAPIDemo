@@ -50,8 +50,12 @@
   <ItemGroup>
     <Compile Include="BaseObject.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="Process.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session.cs" />
+    <Compile Include="Upload.cs" />
+    <Compile Include="UploadAPIWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

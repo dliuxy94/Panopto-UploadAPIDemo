@@ -7,12 +7,12 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using System.Web;
 using System.Web.Script.Serialization;
-using UploadAPIDemo;
 
-namespace PublicAPI.REST.V46
+namespace UploadAPIDemo
 {
     public class Common
     {
+        // This is the target server url
         public static string server = "foo.bar.com";
 
         public static string uriStem = "https://" + server + "/Panopto/PublicAPI/REST";
@@ -26,7 +26,7 @@ namespace PublicAPI.REST.V46
         /// Change the server that the program is directed towards
         /// </summary>
         /// <param name="newServer">new server address</param>
-        public static void setServer(string newServer)
+        public static void SetServer(string newServer)
         {
             server = newServer;
             uriStem = "https://" + server + "/Panopto/PublicAPI/REST";
@@ -58,7 +58,7 @@ namespace PublicAPI.REST.V46
 
             // set up the request
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(
-                "https://" + server + "/Panopto/PublicAPISSL/4.2/Auth.svc");
+                "https://" + server + "/Panopto/PublicAPI/4.2/Auth.svc");
 
             request.Headers.Add("SOAPAction", "http://tempuri.org/IAuth/LogOnWithPassword");
 
@@ -229,14 +229,6 @@ namespace PublicAPI.REST.V46
             }
             catch (Exception e)
             {
-                //Assert.Fail(
-                //    "Failed to parse response body as type {0}.\n" +
-                //    "Exception: {1}\n" +
-                //    "Response body:\n" +
-                //    "{2}",
-                //    typeof(T).AssemblyQualifiedName,
-                //    e.ToString(),
-                //    responseBody);
                 throw new InvalidDataException(e.ToString());
             }
         }
@@ -265,14 +257,6 @@ namespace PublicAPI.REST.V46
 
                 string responseBody = GetResponseBody(response);
 
-                //Assert.AreEqual(
-                //    expectedHttpStatusCode,
-                //    response.StatusCode,
-                //    "Expected status code does not match actual status code.\n" +
-                //    "Response body:\n" +
-                //    "{0}",
-                //    responseBody);
-
                 if (expectedHttpStatusCode != response.StatusCode)
                     throw new InvalidDataException("Status code does not match. Response body: " + responseBody);
 
@@ -285,25 +269,12 @@ namespace PublicAPI.REST.V46
             }
             catch (System.Net.WebException e)
             {
-                //Assert.IsInstanceOfType(
-                //    e.Response,
-                //    typeof(HttpWebResponse),
-                //    "Expected exception Response member to be HttpWebResponse instance.");
-
                 if (!(e.Response).GetType().IsAssignableFrom(typeof(HttpWebResponse)))
                     throw new InvalidDataException("Type mismatch");
 
                 HttpWebResponse response = e.Response as HttpWebResponse;
 
                 string responseBody = GetResponseBody(response);
-
-                //Assert.AreEqual(
-                //    expectedHttpStatusCode,
-                //    response.StatusCode,
-                //    "Expected status code does not match actual status code.\n" +
-                //    "Response body:\n" +
-                //    "{0}",
-                //    responseBody);
 
                 if (expectedHttpStatusCode != response.StatusCode)
                     throw new InvalidDataException("Status code mismatch");
@@ -333,7 +304,6 @@ namespace PublicAPI.REST.V46
             string accessKeyId = "foo", 
             string secretAccessKey = "bar")
         {
-            //Assert.IsNotNull(uploadTarget);
             if (uploadTarget == null)
                 throw new InvalidDataException();
 
@@ -343,7 +313,7 @@ namespace PublicAPI.REST.V46
             {
                 // Amazon SDK will append uploadBucketName ("Upload") to the path and hence hit the actual service endpoint
                 ServiceURL = serviceUri.AbsoluteUri,
-                // BUGBUG (18721) UNCOMMENT UseHttp = serviceUri.Scheme == "http",
+                UseHttp = serviceUri.Scheme == "http"
             };
 
             AmazonS3Client s3Client = new AmazonS3Client(
@@ -351,7 +321,6 @@ namespace PublicAPI.REST.V46
                 secretAccessKey,
                 s3Config);
 
-            //Assert.IsNotNull(s3Client, "Failed to create a well-configured AmazonS3Client.");
             if (s3Client == null)
                 throw new InvalidDataException();
 
@@ -371,9 +340,6 @@ namespace PublicAPI.REST.V46
             string uploadTarget,
             string fileName)
         {
-            //Assert.IsNotNull(s3Client);
-            //Assert.IsNotNull(uploadTarget);
-            //Assert.IsNotNull(fileName);
             if (s3Client == null || uploadTarget == null || fileName == null)
                 throw new InvalidDataException();
 
@@ -390,7 +356,8 @@ namespace PublicAPI.REST.V46
             // AWS SDK for .NET 4.5 default content-length is 0.
             // Set this to zero so it's always valid.
             //
-            // BUGBUG (18721) UNCOMMENT initiateRequest.Headers.ContentLength = 0;
+            
+            initiateRequest.Headers.ContentLength = 0;
             return s3Client.InitiateMultipartUpload(initiateRequest);
         }
 
@@ -410,11 +377,6 @@ namespace PublicAPI.REST.V46
             string uploadId,
             long partSize)
         {
-            //Assert.IsNotNull(s3Client);
-            //Assert.IsNotNull(uploadTarget);
-            //Assert.IsNotNull(fileName);
-            //Assert.IsNotNull(uploadId);
-            //Assert.IsTrue(partSize > 0);
             if (s3Client == null || uploadTarget == null || fileName == null || uploadId == null || partSize <= 0)
                 throw new InvalidDataException();
 
@@ -461,12 +423,6 @@ namespace PublicAPI.REST.V46
             string uploadId,
             List<UploadPartResponse> partResponses)
         {
-            //Assert.IsNotNull(s3Client);
-            //Assert.IsNotNull(uploadTarget);
-            //Assert.IsNotNull(fileName);
-            //Assert.IsNotNull(uploadId);
-            //Assert.IsNotNull(partResponses);
-            //Assert.IsTrue(partResponses.Count > 0);
             if (s3Client == null || uploadTarget == null || fileName == null || uploadId == null || partResponses == null || partResponses.Count <= 0)
                 throw new InvalidDataException();
 
@@ -478,7 +434,7 @@ namespace PublicAPI.REST.V46
                 UploadId = uploadId,
                 
             };
-            // BUGBUG (18721) UNCOMMENT completeRequest.AddPartETags(partResponses);
+
             completeRequest.AddPartETags(partResponses);
 
             return s3Client.CompleteMultipartUpload(completeRequest);
@@ -498,10 +454,6 @@ namespace PublicAPI.REST.V46
             string fileName,
             string uploadId)
         {
-            //Assert.IsNotNull(s3Client);
-            //Assert.IsNotNull(uploadTarget);
-            //Assert.IsNotNull(fileName);
-            //Assert.IsNotNull(uploadId);
             if (s3Client == null || uploadTarget == null || fileName == null || uploadId == null)
                 throw new InvalidDataException();
 
@@ -528,12 +480,11 @@ namespace PublicAPI.REST.V46
         private static string GetServiceUrlFromUploadTarget(
             string uploadTarget)
         {
-            //Assert.IsNotNull(uploadTarget);
             if (uploadTarget == null)
                 throw new InvalidDataException();
 
             int i = uploadTarget.IndexOf(Common.UploadTargetPathFragment_Panopto);
-            //Assert.IsTrue(i >= 0);
+
             if (i < 0)
                 throw new InvalidDataException(); 
 
@@ -557,12 +508,11 @@ namespace PublicAPI.REST.V46
         private static string GetFileKeyPrefixFromUploadTarget(
             string uploadTarget)
         {
-            //Assert.IsNotNull(uploadTarget);
             if (uploadTarget == null)
                 throw new InvalidDataException();
 
             int i = uploadTarget.IndexOf(Common.UploadTargetPathFragment_PanoptoUpload);
-            //Assert.IsTrue(i >= 0);
+
             if (i < 0)
                 throw new InvalidDataException();
 
@@ -586,8 +536,6 @@ namespace PublicAPI.REST.V46
         /// <returns>Content store file key prefix + file name</returns>
         private static string GetFileKey(string uploadTarget, string fileName)
         {
-            //Assert.IsNotNull(uploadTarget);
-            //Assert.IsNotNull(fileName);
             if (uploadTarget == null || fileName == null)
                 throw new InvalidDataException();
 
