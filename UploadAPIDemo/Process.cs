@@ -13,9 +13,9 @@ namespace UploadAPIDemo
     {
         public Process() { }
 
-        public Process(string deliveryID, string target, Guid uploadID, int uploadState)
+        public Process(string sessionID, string target, Guid uploadID, int uploadState)
         {
-            SessionID = deliveryID;
+            SessionID = sessionID;
             UploadTarget = target;
             State = uploadState;
             ID = uploadID;

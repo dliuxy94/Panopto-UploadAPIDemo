@@ -13,9 +13,9 @@ namespace UploadAPIDemo
     {
         public Upload() { }
 
-        public Upload(string deliveryID, string sessionName)
+        public Upload(string sessionID, string sessionName)
         {
-            SessionID = deliveryID;
+            SessionID = sessionID;
             UploadTarget = sessionName;
         }
 
